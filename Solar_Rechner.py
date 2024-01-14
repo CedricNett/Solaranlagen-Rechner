@@ -107,7 +107,7 @@ app = tk.Tk()
 app.title("Solaranlagen & Balkonkraftwerke")
 
 # Mindestgröße für das Fenster festlegen
-app.minsize(400, 200)  # Beispielgrößen; Sie können dies nach Bedarf anpassen
+app.minsize(400, 200)
 
 frame = ttk.Frame(app, padding="10")
 frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -117,7 +117,7 @@ for i in range(10):  # Erhöht auf 10, um mehr Zeilen und Spalten zu haben
     frame.grid_rowconfigure(i, weight=1)
     frame.grid_columnconfigure(i, weight=1)
 
-# Voreingestellte Werte für Breitengrad und Längengrad
+# Voreingestellte Werte für Breitengrad, Längengrad und Höhe
 DEFAULT_BREITENGRAD = "51.4818"
 DEFAULT_LAENGENGRAD = "7.2162"
 DEFAULT_HOEHE = "100" 
@@ -156,7 +156,7 @@ hoehe_entry.insert(0, DEFAULT_HOEHE)  # Setzen des voreingestellten Wertes
 
 # Schaltfläche für Tipps und Ratschläge
 tipps_button = ttk.Button(frame, text="Tipps und Ratschläge", command=zeige_tipps)
-tipps_button.grid(row=7, columnspan=2, sticky=(tk.W, tk.E))  # Positionieren Sie die Schaltfläche am Ende Ihrer GUI
+tipps_button.grid(row=7, columnspan=2, sticky=(tk.W, tk.E))
 
 # Schaltfläche zum Berechnen
 submit_button = ttk.Button(frame, text="Berechnen", command=on_submit)
@@ -168,6 +168,6 @@ output_label.grid(row=9, columnspan=2, sticky=(tk.W, tk.E))
 
 # Schaltfläche zum Anzeigen des Diagramms hinzufügen
 plot_button = ttk.Button(frame, text="Ertrag über 30 Tage anzeigen", command=plot_ertrag)
-plot_button.grid(row=10, columnspan=2)  # Nach der vorherigen Schaltfläche hinzufügen
+plot_button.grid(row=10, columnspan=2)
 
 app.mainloop()
