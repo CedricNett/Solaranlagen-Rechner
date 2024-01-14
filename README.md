@@ -1,6 +1,6 @@
 ## Solaranlagen-Rechner
-#Solaranlagen &amp; Balkonkraftwerke können hier berechnet werden
-#Es werden bald folgende funktionen hinzugefügt werden:
+Solaranlagen &amp; Balkonkraftwerke können hier berechnet werden
+Es werden bald folgende funktionen hinzugefügt werden:
 
 Echtzeit-Daten: Wenn möglich, integriere eine Funktion, die Echtzeitdaten von Sonneneinstrahlung, Temperatur oder anderen relevanten Parametern aus einer API oder einem externen Dienst abruft und in die Berechnungen einbezieht.
 
