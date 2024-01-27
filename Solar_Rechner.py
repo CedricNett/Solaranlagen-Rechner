@@ -1,13 +1,16 @@
 import matplotlib
-matplotlib.use('TkAgg')  # Setze das Backend von Matplotlib auf 'TkAgg'
+matplotlib.use('TkAgg') # Setze das Backend von Matplotlib auf 'TkAgg'
 
 import tkinter as tk
 from tkinter import ttk
 import math
 import matplotlib.pyplot as plt
 from tkinter import messagebox
+from tkinter.simpledialog import askstring
 
-frame = None  # Globale Variable für den Rahmen
+frame = None    # Globale Variable für den Rahmen
+
+ertrag = 0.0    # Globale Variable für den erwarteten Ertrag
 
 class SolarAnlage:
     def __init__(self, seite_l, seite_b, neigung, sonnenstunden, breitengrad, laengengrad, hoehe):
@@ -39,7 +42,8 @@ class SolarAnlage:
 
         return ertrag
 
-def on_submit():
+def berechne_ertrag_globally():
+    global ertrag
     try:
         seite_l = float(seite_l_entry.get())
         seite_b = float(seite_b_entry.get())
@@ -51,10 +55,20 @@ def on_submit():
 
         solar_anlage = SolarAnlage(seite_l, seite_b, neigung, sonnenstunden, breitengrad, laengengrad, hoehe)
         ertrag = solar_anlage.berechne_ertrag()
+        return ertrag
 
-        output_label.config(text=f"Erwarteter Ertrag: {ertrag:.2f}".replace('.', ',') + " kWh pro Tag")
     except ValueError:
-        output_label.config(text="Bitte gültige Zahlen eingeben!")
+        return None
+
+def on_submit():
+    global ertrag
+    ertrag = berechne_ertrag_globally()
+
+    if ertrag is not None:
+        output_label.config(text=f"Erwarteter Ertrag: {ertrag:.2f}".replace('.', ',') + " kWh pro Tag", foreground='green')
+    else:
+        output_label.config(text="Bitte gültige Zahlen eingeben!", foreground='red')
+
 
 def plot_ertrag():
     try:
@@ -102,12 +116,30 @@ def zeige_tipps():
     # Ein einfaches Dialogfenster zur Anzeige der Tipps
     tk.messagebox.showinfo("Tipps und Ratschläge", tipps_text)
 
+def zeige_taschenrechner():
+    # Funktion, um den Taschenrechner zu öffnen und das Ergebnis zurückzugeben
+    def berechne_ausdruck(ausdruck):
+        try:
+            # Verwende die eval-Funktion, um den Ausdruck zu berechnen
+            ergebnis = eval(ausdruck)
+            return f"Ergebnis: {ergebnis}"
+        except Exception as e:
+            return f"Fehler: {str(e)}"
+
+    # Zeige das Eingabefeld für den Taschenrechner an
+    ausdruck = askstring("Taschenrechner", "Geben Sie einen mathematischen Ausdruck ein:")
+    
+    if ausdruck:
+        # Berechne den Ausdruck und zeige das Ergebnis an
+        ergebnis = berechne_ausdruck(ausdruck)
+        tk.messagebox.showinfo("Taschenrechner", ergebnis)
+
 # GUI erstellen
 app = tk.Tk()
 app.title("Solaranlagen & Balkonkraftwerke")
 
 # Mindestgröße für das Fenster festlegen
-app.minsize(400, 200)
+app.minsize(400, 200)  # Beispielgrößen; Sie können dies nach Bedarf anpassen
 
 frame = ttk.Frame(app, padding="10")
 frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -117,7 +149,7 @@ for i in range(10):  # Erhöht auf 10, um mehr Zeilen und Spalten zu haben
     frame.grid_rowconfigure(i, weight=1)
     frame.grid_columnconfigure(i, weight=1)
 
-# Voreingestellte Werte für Breitengrad, Längengrad und Höhe
+# Voreingestellte Werte für Breitengrad und Längengrad
 DEFAULT_BREITENGRAD = "51.4818"
 DEFAULT_LAENGENGRAD = "7.2162"
 DEFAULT_HOEHE = "100" 
@@ -156,18 +188,31 @@ hoehe_entry.insert(0, DEFAULT_HOEHE)  # Setzen des voreingestellten Wertes
 
 # Schaltfläche für Tipps und Ratschläge
 tipps_button = ttk.Button(frame, text="Tipps und Ratschläge", command=zeige_tipps)
-tipps_button.grid(row=7, columnspan=2, sticky=(tk.W, tk.E))
+tipps_button.grid(row=7, columnspan=2, sticky=(tk.E, tk.N))  # Positionieren Sie die Schaltfläche am Ende Ihrer GUI
+
+# Schaltfläche für den Taschenrechner
+calculator_button = ttk.Button(frame, text="Taschenrechner", command=zeige_taschenrechner)
+calculator_button.grid(row=7, columnspan=1, sticky=(tk.W, tk.N))  # Positionieren Sie die Schaltfläche am Ende Ihrer GUI
 
 # Schaltfläche zum Berechnen
 submit_button = ttk.Button(frame, text="Berechnen", command=on_submit)
 submit_button.grid(row=8, columnspan=2, sticky=(tk.W, tk.E))
 
 # Ausgabe-Label
-output_label = ttk.Label(frame, text="")
+output_label = ttk.Label(frame, text="", font=('Helvetica', 14, 'bold'), anchor='center')
 output_label.grid(row=9, columnspan=2, sticky=(tk.W, tk.E))
+
+# In der on_submit-Funktion (oder überall dort, wo du den Text des Labels aktualisierst):
+output_label.config(text=f"Erwarteter Ertrag: {ertrag:.2f}".replace('.', ',') + " kWh pro Tag", foreground='green')
 
 # Schaltfläche zum Anzeigen des Diagramms hinzufügen
 plot_button = ttk.Button(frame, text="Ertrag über 30 Tage anzeigen", command=plot_ertrag)
-plot_button.grid(row=10, columnspan=2)
+plot_button.grid(row=10, columnspan=2)  # Nach der vorherigen Schaltfläche hinzufügen
 
 app.mainloop()
+
+## Echtzeit-Daten: Wenn möglich, integriere eine Funktion, die Echtzeitdaten von Sonneneinstrahlung, Temperatur oder anderen relevanten Parametern aus einer API oder einem externen Dienst abruft und in die Berechnungen einbezieht.
+
+## Responsive Design: Stelle sicher, dass die Anwendung auf verschiedenen Bildschirmgrößen und Geräten gut funktioniert, indem du ein responsives Design verwendest.
+
+## Integration von Speicherlösungen: Berücksichtige auch Speicherlösungen wie Batterien in den Berechnungen und zeige auf, wie diese die Rentabilität und Effizienz der Solaranlage beeinflussen können.
