@@ -174,25 +174,25 @@ sonnenstunden_entry.grid(row=3, column=1, sticky=(tk.W, tk.E))
 ttk.Label(frame, text="Breitengrad:").grid(row=4, column=0, sticky=tk.W)
 breitengrad_entry = ttk.Entry(frame)
 breitengrad_entry.grid(row=4, column=1, sticky=(tk.W, tk.E))
-breitengrad_entry.insert(0, DEFAULT_BREITENGRAD)  # Setzen des voreingestellten Wertes
+breitengrad_entry.insert(0, DEFAULT_BREITENGRAD)
 
 ttk.Label(frame, text="Längengrad:").grid(row=5, column=0, sticky=tk.W)
 laengengrad_entry = ttk.Entry(frame)
 laengengrad_entry.grid(row=5, column=1, sticky=(tk.W, tk.E))
-laengengrad_entry.insert(0, DEFAULT_LAENGENGRAD)  # Setzen des voreingestellten Wertes
+laengengrad_entry.insert(0, DEFAULT_LAENGENGRAD)
 
 ttk.Label(frame, text="Höhe über dem Meeresspiegel (m):").grid(row=6, column=0, sticky=tk.W)
 hoehe_entry = ttk.Entry(frame)
 hoehe_entry.grid(row=6, column=1, sticky=(tk.W, tk.E))
-hoehe_entry.insert(0, DEFAULT_HOEHE)  # Setzen des voreingestellten Wertes
+hoehe_entry.insert(0, DEFAULT_HOEHE)
 
 # Schaltfläche für Tipps und Ratschläge
 tipps_button = ttk.Button(frame, text="Tipps und Ratschläge", command=zeige_tipps)
-tipps_button.grid(row=7, columnspan=2, sticky=(tk.E, tk.N))  # Positionieren Sie die Schaltfläche am Ende Ihrer GUI
+tipps_button.grid(row=7, columnspan=2, sticky=(tk.E, tk.N))
 
 # Schaltfläche für den Taschenrechner
 calculator_button = ttk.Button(frame, text="Taschenrechner", command=zeige_taschenrechner)
-calculator_button.grid(row=7, columnspan=1, sticky=(tk.W, tk.N))  # Positionieren Sie die Schaltfläche am Ende Ihrer GUI
+calculator_button.grid(row=7, columnspan=1, sticky=(tk.W, tk.N))
 
 # Schaltfläche zum Berechnen
 submit_button = ttk.Button(frame, text="Berechnen", command=on_submit)
@@ -207,7 +207,7 @@ output_label.config(text=f"Erwarteter Ertrag: {ertrag:.2f}".replace('.', ',') + 
 
 # Schaltfläche zum Anzeigen des Diagramms hinzufügen
 plot_button = ttk.Button(frame, text="Ertrag über 30 Tage anzeigen", command=plot_ertrag)
-plot_button.grid(row=10, columnspan=2)  # Nach der vorherigen Schaltfläche hinzufügen
+plot_button.grid(row=10, columnspan=2)
 
 app.mainloop()
 
